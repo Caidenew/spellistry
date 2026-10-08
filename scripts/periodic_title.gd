@@ -3,13 +3,11 @@ extends VBoxContainer
 const TILE_DATA: Array[Dictionary] = [
 	{"number": "16", "symbol": "S", "name": "Sulfur", "real": true},
 	{"number": "15", "symbol": "P", "name": "Phosphorus", "real": true},
-	{"number": "119", "symbol": "E", "name": "Elarite*", "real": false},
-	{"number": "120", "symbol": "L", "name": "Lumium*", "real": false},
-	{"number": "120", "symbol": "L", "name": "Lumium*", "real": false},
-	{"number": "53", "symbol": "I", "name": "Iodine", "real": true},
+	{"number": "119", "symbol": "El", "name": "Elarite*", "real": false},
+	{"number": "3", "symbol": "Li", "name": "Lithium", "real": true},
 	{"number": "16", "symbol": "S", "name": "Sulfur", "real": true},
-	{"number": "121", "symbol": "T", "name": "Tetrinium*", "real": false},
-	{"number": "122", "symbol": "R", "name": "Rhyllium*", "real": false},
+	{"number": "120", "symbol": "T", "name": "Tetrinium*", "real": false},
+	{"number": "121", "symbol": "R", "name": "Rhyllium*", "real": false},
 	{"number": "39", "symbol": "Y", "name": "Yttrium", "real": true},
 ]
 
@@ -27,7 +25,7 @@ func _ready() -> void:
 		tile_row.add_child(_make_tile(tile_data))
 
 	var legend := Label.new()
-	legend.text = "Real: S Sulfur · P Phosphorus · I Iodine · Y Yttrium\n* Fictional elements; numbers 119–122"
+	legend.text = "Real: S Sulfur · P Phosphorus · Li Lithium · Y Yttrium\n* Fictional tiles: El (119), T (120), R (121)"
 	legend.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	legend.add_theme_font_size_override("font_size", 10)
 	legend.modulate = Color(0.72, 0.78, 0.73, 1.0)
