@@ -24,17 +24,10 @@ func _ready() -> void:
 	for tile_data in TILE_DATA:
 		tile_row.add_child(_make_tile(tile_data))
 
-	var legend := Label.new()
-	legend.text = "Real: S Sulfur · P Phosphorus · Li Lithium · Y Yttrium\n* Fictional tiles: El (119), T (120), R (121)"
-	legend.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	legend.add_theme_font_size_override("font_size", 10)
-	legend.modulate = Color(0.72, 0.78, 0.73, 1.0)
-	add_child(legend)
-
 
 func _make_tile(tile_data: Dictionary) -> PanelContainer:
 	var is_real: bool = tile_data["real"]
-	var accent := Color(0.25, 0.88, 0.46, 1.0) if is_real else Color(0.48, 0.78, 0.63, 1.0)
+	var accent := Color(0.25, 0.88, 0.46, 1.0) if is_real else Color(0.34, 0.78, 0.49, 1.0)
 
 	var tile := PanelContainer.new()
 	tile.custom_minimum_size = Vector2(55, 76)
