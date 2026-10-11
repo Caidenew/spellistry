@@ -88,7 +88,7 @@ func _build_slots() -> void:
 				continue
 
 			var slot := BeveledGameSlot.new()
-		slots.append(slot)
+			slots.append(slot)
 			add_child(slot)
 
 	merged_slot = BeveledGameSlot.new()
@@ -124,7 +124,11 @@ func _layout_grid() -> void:
 			if column == 2 or column == 3:
 				continue
 
-			_place_slot(slots[slot_index], grid_origin + Vector2(column * pitch.x, row * pitch.y), Vector2(tile_width, tile_height))
+			_place_slot(
+				slots[slot_index],
+				grid_origin + Vector2(column * pitch.x, row * pitch.y),
+				Vector2(tile_width, tile_height)
+			)
 			slot_index += 1
 
 	var merged_size := Vector2(2 * tile_width + horizontal_gap, 2 * tile_height + vertical_gap)
