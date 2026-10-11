@@ -24,20 +24,13 @@ func _ready() -> void:
 	for tile_data in TILE_DATA:
 		tile_row.add_child(_make_tile(tile_data))
 
-	var legend := Label.new()
-	legend.text = "Real: S Sulfur · P Phosphorus · Li Lithium · Y Yttrium\n* Fictional tiles: El (119), T (120), R (121)"
-	legend.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	legend.add_theme_font_size_override("font_size", 10)
-	legend.modulate = Color(0.72, 0.78, 0.73, 1.0)
-	add_child(legend)
-
 
 func _make_tile(tile_data: Dictionary) -> PanelContainer:
 	var is_real: bool = tile_data["real"]
-	var accent := Color(0.25, 0.88, 0.46, 1.0) if is_real else Color(0.48, 0.78, 0.63, 1.0)
+	var accent := Color(0.25, 0.88, 0.46, 1.0) if is_real else Color(0.34, 0.78, 0.49, 1.0)
 
 	var tile := PanelContainer.new()
-	tile.custom_minimum_size = Vector2(55, 76)
+	tile.custom_minimum_size = Vector2(60, 84)
 	tile.tooltip_text = "%s — %s (atomic number %s)" % [
 		tile_data["symbol"],
 		tile_data["name"].trim_suffix("*"),
@@ -61,7 +54,7 @@ func _make_tile(tile_data: Dictionary) -> PanelContainer:
 
 	var number := Label.new()
 	number.text = str(tile_data["number"])
-	number.add_theme_font_size_override("font_size", 10)
+	number.add_theme_font_size_override("font_size", 11)
 	number.modulate = accent
 	contents.add_child(number)
 
@@ -70,7 +63,7 @@ func _make_tile(tile_data: Dictionary) -> PanelContainer:
 	symbol.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	symbol.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	symbol.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	symbol.add_theme_font_size_override("font_size", 25)
+	symbol.add_theme_font_size_override("font_size", 28)
 	symbol.add_theme_color_override("font_color", Color(0.9, 1.0, 0.92, 1.0))
 	contents.add_child(symbol)
 
@@ -78,7 +71,7 @@ func _make_tile(tile_data: Dictionary) -> PanelContainer:
 	element_name.text = str(tile_data["name"])
 	element_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	element_name.clip_text = true
-	element_name.add_theme_font_size_override("font_size", 8)
+	element_name.add_theme_font_size_override("font_size", 9)
 	element_name.modulate = Color(0.76, 0.85, 0.78, 1.0)
 	contents.add_child(element_name)
 
