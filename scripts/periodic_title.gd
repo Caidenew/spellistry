@@ -30,7 +30,7 @@ func _make_tile(tile_data: Dictionary) -> PanelContainer:
 	var accent := Color(0.25, 0.88, 0.46, 1.0) if is_real else Color(0.34, 0.78, 0.49, 1.0)
 
 	var tile := PanelContainer.new()
-	tile.custom_minimum_size = Vector2(55, 76)
+	tile.custom_minimum_size = Vector2(60, 84)
 	tile.tooltip_text = "%s — %s (atomic number %s)" % [
 		tile_data["symbol"],
 		tile_data["name"].trim_suffix("*"),
@@ -54,7 +54,7 @@ func _make_tile(tile_data: Dictionary) -> PanelContainer:
 
 	var number := Label.new()
 	number.text = str(tile_data["number"])
-	number.add_theme_font_size_override("font_size", 10)
+	number.add_theme_font_size_override("font_size", 11)
 	number.modulate = accent
 	contents.add_child(number)
 
@@ -63,7 +63,7 @@ func _make_tile(tile_data: Dictionary) -> PanelContainer:
 	symbol.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	symbol.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	symbol.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	symbol.add_theme_font_size_override("font_size", 25)
+	symbol.add_theme_font_size_override("font_size", 28)
 	symbol.add_theme_color_override("font_color", Color(0.9, 1.0, 0.92, 1.0))
 	contents.add_child(symbol)
 
@@ -71,7 +71,7 @@ func _make_tile(tile_data: Dictionary) -> PanelContainer:
 	element_name.text = str(tile_data["name"])
 	element_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	element_name.clip_text = true
-	element_name.add_theme_font_size_override("font_size", 8)
+	element_name.add_theme_font_size_override("font_size", 9)
 	element_name.modulate = Color(0.76, 0.85, 0.78, 1.0)
 	contents.add_child(element_name)
 
