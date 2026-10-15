@@ -214,7 +214,7 @@ func _build_slots() -> void:
 			var slot := BeveledGameSlot.new()
 			if row == 0 and column == 0:
 				slot.icon_kind = &"potion"
-				slot.tooltip_text = "Potion Checker"
+				slot.tooltip_text = "Unit 1"
 			slots.append(slot)
 			add_child(slot)
 
