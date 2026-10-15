@@ -9,12 +9,17 @@ const HOVER_DURATION: float = 0.12
 
 
 class BeveledGameSlot extends Control:
+	signal activated
+
 	var outline_style: StyleBoxFlat
 	var hover_tween: Tween
 	var icon_kind: StringName = &""
 
 	func _ready() -> void:
 		mouse_filter = Control.MOUSE_FILTER_STOP
+		if icon_kind == &"potion":
+			focus_mode = Control.FOCUS_ALL
+			mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 
 		outline_style = StyleBoxFlat.new()
 		outline_style.bg_color = Color(0.0, 0.0, 0.0, 0.0)
@@ -26,6 +31,18 @@ class BeveledGameSlot extends Control:
 		mouse_exited.connect(_on_mouse_exited)
 		resized.connect(_update_pivot)
 		_update_pivot()
+
+	func _gui_input(event: InputEvent) -> void:
+		if icon_kind != &"potion":
+			return
+
+		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			activated.emit()
+			accept_event()
+		elif event is InputEventKey and event.pressed and not event.echo:
+			if event.keycode == KEY_ENTER or event.keycode == KEY_SPACE:
+				activated.emit()
+				accept_event()
 
 	func _draw() -> void:
 		if size.x < 4.0 or size.y < 4.0 or outline_style == null:
@@ -215,6 +232,7 @@ func _build_slots() -> void:
 			if row == 0 and column == 0:
 				slot.icon_kind = &"potion"
 				slot.tooltip_text = "Unit 1"
+				slot.activated.connect(_open_potion_checker)
 			slots.append(slot)
 			add_child(slot)
 
@@ -229,6 +247,12 @@ func _build_slots() -> void:
 			slot.tooltip_text = "Leaderboard"
 		slots.append(slot)
 		add_child(slot)
+
+
+func _open_potion_checker() -> void:
+	var result = get_tree().change_scene_to_file("res://game/potion_checker.tscn")
+	if result != OK:
+		push_error("Could not open the Potion Checker scene. Error code: %s" % result)
 
 
 func _layout_grid() -> void:
