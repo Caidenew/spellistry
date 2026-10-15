@@ -11,6 +11,7 @@ const HOVER_DURATION: float = 0.12
 class BeveledGameSlot extends Control:
 	var outline_style: StyleBoxFlat
 	var hover_tween: Tween
+	var icon_kind: StringName = &""
 
 	func _ready() -> void:
 		mouse_filter = Control.MOUSE_FILTER_STOP
@@ -51,6 +52,120 @@ class BeveledGameSlot extends Control:
 			true
 		)
 
+		if icon_kind == &"potion":
+			_draw_potion_checker_icon()
+		elif icon_kind == &"podium":
+			_draw_podium_icon()
+
+	func _draw_potion_checker_icon() -> void:
+		var unit := minf(size.x, size.y)
+		var center := size / 2.0
+		var green := Color(0.25, 0.88, 0.46, 1.0)
+		var glass := Color(0.10, 0.55, 0.29, 0.36)
+		var liquid := Color(0.25, 0.88, 0.46, 0.72)
+		var flask_center := center + Vector2(-0.10 * unit, 0.0)
+		var outline := PackedVector2Array([
+			flask_center + Vector2(-0.075, -0.285) * unit,
+			flask_center + Vector2(0.075, -0.285) * unit,
+			flask_center + Vector2(0.075, -0.155) * unit,
+			flask_center + Vector2(0.105, -0.115) * unit,
+			flask_center + Vector2(0.19, -0.045) * unit,
+			flask_center + Vector2(0.225, 0.13) * unit,
+			flask_center + Vector2(0.195, 0.235) * unit,
+			flask_center + Vector2(0.14, 0.265) * unit,
+			flask_center + Vector2(-0.14, 0.265) * unit,
+			flask_center + Vector2(-0.195, 0.235) * unit,
+			flask_center + Vector2(-0.225, 0.13) * unit,
+			flask_center + Vector2(-0.19, -0.045) * unit,
+			flask_center + Vector2(-0.105, -0.115) * unit,
+			flask_center + Vector2(-0.075, -0.155) * unit,
+			flask_center + Vector2(-0.075, -0.285) * unit,
+		])
+		var fill_shape := PackedVector2Array(outline)
+		fill_shape.remove_at(fill_shape.size() - 1)
+		draw_colored_polygon(fill_shape, glass)
+		for index in range(outline.size() - 1):
+			draw_line(outline[index], outline[index + 1], green, 2.5, true)
+		draw_line(
+			flask_center + Vector2(-0.075, -0.155) * unit,
+			flask_center + Vector2(0.075, -0.155) * unit,
+			green,
+			2.0,
+			true
+		)
+		draw_line(
+			flask_center + Vector2(-0.16, 0.105) * unit,
+			flask_center + Vector2(0.16, 0.105) * unit,
+			liquid,
+			3.0,
+			true
+		)
+		draw_line(
+			flask_center + Vector2(-0.075, -0.30) * unit,
+			flask_center + Vector2(0.075, -0.30) * unit,
+			green,
+			2.5,
+			true
+		)
+
+		var lens_center := center + Vector2(0.245, 0.025) * unit
+		var lens_radius := unit * 0.125
+		draw_circle(lens_center, lens_radius, Color(0.10, 0.55, 0.29, 0.18))
+		draw_arc(lens_center, lens_radius, 0.0, TAU, 36, green, 2.7, true)
+		draw_line(
+			lens_center + Vector2(0.085, 0.085) * unit,
+			lens_center + Vector2(0.18, 0.18) * unit,
+			green,
+			3.5,
+			true
+		)
+		draw_line(
+			lens_center + Vector2(-0.055, -0.055) * unit,
+			lens_center + Vector2(0.015, -0.085) * unit,
+			Color(0.75, 0.98, 0.81, 0.8),
+			1.5,
+			true
+		)
+
+	func _draw_podium_icon() -> void:
+		var unit := minf(size.x, size.y)
+		var center := size / 2.0 + Vector2(0.0, 0.045 * unit)
+		var green := Color(0.25, 0.88, 0.46, 1.0)
+		var fill := Color(0.10, 0.55, 0.29, 0.32)
+		var line_width := 2.5
+
+		var left_block := Rect2(
+			center + Vector2(-0.31, -0.02) * unit,
+			Vector2(0.19, 0.19) * unit
+		)
+		var center_block := Rect2(
+			center + Vector2(-0.095, -0.17) * unit,
+			Vector2(0.19, 0.34) * unit
+		)
+		var right_block := Rect2(
+			center + Vector2(0.12, 0.045) * unit,
+			Vector2(0.19, 0.125) * unit
+		)
+
+		for block in [left_block, center_block, right_block]:
+			draw_rect(block, fill, true)
+			draw_rect(block, green, false, line_width, true)
+		draw_line(
+			center + Vector2(-0.36, 0.17) * unit,
+			center + Vector2(0.36, 0.17) * unit,
+			green,
+			line_width,
+			true
+		)
+		draw_line(
+			center + Vector2(0.0, -0.39) * unit,
+			center + Vector2(0.0, -0.29) * unit,
+			green,
+			line_width,
+			true
+		)
+		draw_circle(center + Vector2(0.0, -0.43) * unit, unit * 0.035, green)
+
 	func _on_mouse_entered() -> void:
 		_animate_scale(Vector2(HOVER_SCALE, HOVER_SCALE))
 
@@ -88,6 +203,8 @@ func _build_slots() -> void:
 				continue
 
 			var slot := BeveledGameSlot.new()
+			if row == 0 and column == 0:
+				slot.icon_kind = &"potion"
 			slots.append(slot)
 			add_child(slot)
 
@@ -95,8 +212,10 @@ func _build_slots() -> void:
 	add_child(merged_slot)
 
 	# Three bottom slots stay centered in the wider six-column layout.
-	for _index in range(3):
+	for index in range(3):
 		var slot := BeveledGameSlot.new()
+		if index == 1:
+			slot.icon_kind = &"podium"
 		slots.append(slot)
 		add_child(slot)
 
