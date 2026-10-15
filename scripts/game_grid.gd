@@ -59,7 +59,7 @@ class BeveledGameSlot extends Control:
 
 	func _draw_potion_checker_icon() -> void:
 		var unit := minf(size.x, size.y)
-		var center := size / 2.0
+		var center := size / 2.0 + Vector2(0.0, -0.09 * unit)
 		var green := Color(0.25, 0.88, 0.46, 1.0)
 		var glass := Color(0.10, 0.55, 0.29, 0.36)
 		var liquid := Color(0.25, 0.88, 0.46, 0.72)
@@ -125,6 +125,15 @@ class BeveledGameSlot extends Control:
 			Color(0.75, 0.98, 0.81, 0.8),
 			1.5,
 			true
+		)
+		draw_string(
+			get_theme_default_font(),
+			Vector2(0.0, size.y / 2.0 + 0.38 * unit),
+			"Unit 1",
+			HORIZONTAL_ALIGNMENT_CENTER,
+			size.x,
+			clampi(roundi(unit * 0.09), 12, 20),
+			green
 		)
 
 	func _draw_podium_icon() -> void:
@@ -205,6 +214,7 @@ func _build_slots() -> void:
 			var slot := BeveledGameSlot.new()
 			if row == 0 and column == 0:
 				slot.icon_kind = &"potion"
+				slot.tooltip_text = "Potion Checker"
 			slots.append(slot)
 			add_child(slot)
 
@@ -216,6 +226,7 @@ func _build_slots() -> void:
 		var slot := BeveledGameSlot.new()
 		if index == 1:
 			slot.icon_kind = &"podium"
+			slot.tooltip_text = "Leaderboard"
 		slots.append(slot)
 		add_child(slot)
 
