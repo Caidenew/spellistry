@@ -129,7 +129,7 @@ class BeveledGameSlot extends Control:
 		draw_string(
 			get_theme_default_font(),
 			Vector2(0.0, size.y / 2.0 + 0.38 * unit),
-			"Unit 1",
+			"Potion Checker",
 			HORIZONTAL_ALIGNMENT_CENTER,
 			size.x,
 			clampi(roundi(unit * 0.09), 12, 20),
